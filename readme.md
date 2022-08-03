@@ -1,6 +1,6 @@
 # Calendar - React
 
-### [Site link](https://62ea1fe28fd0a267f2106514--delightful-daifuku-3f9384.netlify.app/)
+### [Site link](https://delightful-daifuku-3f9384.netlify.app)
 
 ### The tech stack is:
 
