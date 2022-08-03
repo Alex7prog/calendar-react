@@ -7,9 +7,14 @@
 
 .create-event-btn {
   padding: 0 16px;
+  // -----------
+  border-radius: 20px;
+  background-color: transparent;
+  box-shadow: 2px 3px 5px -1px rgb(0 0 0 / 30%);
 
   &__icon {
     margin-right: 8px;
+    color: green;
   }
 }
 
@@ -17,6 +22,8 @@
   &__today-btn {
     margin-left: 32px;
     padding: 0 16px;
+    border-radius: 8px;
+    background-color: transparent;
   }
 
   &__nav-icon {
