@@ -2,7 +2,7 @@ import React from 'react';
 
 import './modal.scss';
 
-const Modal = ({ onClose }) => {
+const Modal = ({ onClose, onChange, onSubmit }) => {
   return (
     <div className="modal overlay">
       <div className="modal__content">
@@ -10,23 +10,32 @@ const Modal = ({ onClose }) => {
           <button className="create-event__close-btn" onClick={onClose}>
             +
           </button>
-          <form className="event-form">
-            <input type="text" name="title" placeholder="Title" className="event-form__field" />
+          <form className="event-form" onSubmit={onSubmit}>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              className="event-form__field"
+              required
+              onChange={onChange}
+            />
             <div className="event-form__time">
-              <input type="date" name="date" className="event-form__field" />
+              <input type="date" name="date" className="event-form__field" onChange={onChange} />
               <input
                 type="time"
                 name="startTime"
                 className="event-form__field"
+                onChange={onChange}
                 // onChange={handleChange}
               />
               <span>-</span>
-              <input type="time" name="endTime" className="event-form__field" />
+              <input type="time" name="endTime" className="event-form__field" onChange={onChange} />
             </div>
             <textarea
               name="description"
               placeholder="Description"
               className="event-form__field"
+              onChange={onChange}
             ></textarea>
             <button type="submit" className="event-form__submit-btn">
               Create

@@ -1,0 +1,14 @@
+.red-line {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  border-top: 2px solid red;
+  z-index: 5;
+
+  &__circle {
+    color: red;
+    font-size: 10px;
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}

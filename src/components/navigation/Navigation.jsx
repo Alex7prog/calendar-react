@@ -10,10 +10,7 @@ const Navigation = ({ weekDates }) => {
         <div className="calendar__day-label day-label">
           {currentDay.toDateString() === dayDate.toDateString() ? (
             <>
-              <span
-                className="day-label__day-name day-label__day-name_current"
-                style={{ color: 'blue' }}
-              >
+              <span className="day-label__day-name day-label__day-name_current">
                 {days[dayDate.getDay()]}
               </span>
               <span className="day-label__day-number day-label__day-number_current">
