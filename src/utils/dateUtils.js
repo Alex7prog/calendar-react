@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getWeekStartDate = date => {
   const dateCopy = new Date(date);
   const dayOfWeek = dateCopy.getDay();
@@ -72,4 +74,19 @@ export const getMonthsOnWeek = date => {
   }
 
   return `${months[startWeekMonth]} - ${months[endWeekMonth]}`;
+};
+
+export const getMinutesWithStep = (timeStr, step) => {
+  let hm = timeStr.split(':');
+  hm[1] = (Math.round(hm[1] / step) * step).toString();
+
+  return hm[1] !== '0' ? hm.join(':') : hm.join(':0');
+};
+
+export const getEventObjDate = date => {
+  return {
+    date: moment(date).format('YYYY-MM-DD'),
+    startTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
+    endTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
+  };
 };

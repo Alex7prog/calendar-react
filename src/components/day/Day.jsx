@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
+
 import Hour from '../hour/Hour';
 import TimeLine from '../timeLine/TimeLine';
 
 import './day.scss';
 
-const Day = ({ dataDay, dayEvents, onEventDelete }) => {
+const Day = ({ dataMonth, dataDay, dayEvents, onGetDay }) => {
   const hours = [...Array(24)].map((val, index) => index);
 
   const [currentMinutes, setTime] = useState(new Date().getMinutes());
 
+  const currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
   const currentHour = new Date().getHours();
 
@@ -23,23 +25,18 @@ const Day = ({ dataDay, dayEvents, onEventDelete }) => {
   }, []);
 
   return (
-    <div className="calendar__day" data-day={dataDay}>
+    <div className="calendar__day" data-month={dataMonth} data-day={dataDay}>
       {hours.map(hour => {
         //getting all events from the day we will render
         const hourEvents = dayEvents.filter(event => event.dateFrom.getHours() === hour);
 
         return (
-          <>
-            {currentDay === dataDay && currentHour === hour && (
+          <React.Fragment key={`h-${dataDay}-${hour}`}>
+            {currentMonth === dataMonth && currentDay === dataDay && currentHour === hour && (
               <TimeLine marginTop={currentMinutes} />
             )}
-            <Hour
-              key={dataDay + hour}
-              dataHour={hour}
-              hourEvents={hourEvents}
-              onEventDelete={onEventDelete}
-            />
-          </>
+            <Hour dataHour={hour} hourEvents={hourEvents} onGetDay={onGetDay} />
+          </React.Fragment>
         );
       })}
     </div>

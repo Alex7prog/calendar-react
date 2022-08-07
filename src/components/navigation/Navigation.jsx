@@ -7,7 +7,7 @@ const Navigation = ({ weekDates }) => {
   return (
     <header className="calendar__header">
       {weekDates.map(dayDate => (
-        <div className="calendar__day-label day-label">
+        <div key={dayDate} className="calendar__day-label day-label">
           {currentDay.toDateString() === dayDate.toDateString() ? (
             <>
               <span className="day-label__day-name day-label__day-name_current">

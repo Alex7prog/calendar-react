@@ -3,18 +3,35 @@
   height: 60px;
   padding: 0 48px;
   align-items: center;
+
+  &__displayed-number-events {
+    margin-left: auto;
+    font-style: italic;
+    color: blue;
+  }
 }
 
 .create-event-btn {
-  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 17px 0 10px;
   // -----------
   border-radius: 20px;
   background-color: transparent;
   box-shadow: 2px 3px 5px -1px rgb(0 0 0 / 30%);
 
   &__icon {
-    margin-right: 8px;
-    color: green;
+    display: flex;
+    align-items: center;
+
+    &-svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &__text {
+    margin-left: 10px;
   }
 }
 
@@ -32,6 +49,7 @@
   }
 
   &__displayed-month {
-    margin-left: 10px;
+    font-size: 20px;
+    margin-left: 20px;
   }
 }

@@ -1,8 +1,5 @@
 .modal {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  transform: scale(0);
 
   &__content {
     background: #fff;
@@ -10,16 +7,32 @@
     border: 1px solid #ccc;
     border-radius: 8px;
   }
+  &_active {
+    transform: scale(1);
+    transition: 0.5s;
+  }
 }
 
 .overlay {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: #cccccc45;
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+
+  &_active {
+    opacity: 1;
+    transition: 0.5s;
+    pointer-events: all;
+  }
 }
 
 .create-event {
@@ -28,7 +41,7 @@
 
   &__close-btn {
     margin-left: auto;
-    transform: rotate(45deg) scale(2);
+    transform: rotate(45deg) scale(1.8);
     outline: none;
     border: none;
     cursor: pointer;
@@ -44,7 +57,7 @@
   flex-direction: column;
 
   &__field {
-    margin: 8px;
+    margin: 10px;
     border: none;
   }
 
