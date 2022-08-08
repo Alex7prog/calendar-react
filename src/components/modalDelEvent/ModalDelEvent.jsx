@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import './modal-del-event.scss';
 
 const ModalDelEvent = ({ active, onDelete, position }) => {
@@ -26,18 +26,12 @@ const ModalDelEvent = ({ active, onDelete, position }) => {
 
 export default ModalDelEvent;
 
-// return (
-//   <div className="modal overlay" onClick={onDelete}>
-//     <div
-//       className="modal__content"
-//       style={{ position: 'absolute', left: `${position.x}px`, top: `${position.y}px` }}
-//     >
-//       <div className="create-event">
-//         <div className="create-event__delete">
-//           <i className="fas fa-trash"></i>
-//           <span>Delete</span>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
+ModalDelEvent.propTypes = {
+  active: PropTypes.bool,
+  onDelete: PropTypes.func.isRequired,
+  position: PropTypes.object.isRequired,
+};
+
+ModalDelEvent.defaultProps = {
+  active: false,
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './header.scss';
 
@@ -6,7 +7,6 @@ const Header = ({ monthTitle, numberEvent, onToday, onNextWeek, onPrevWeek, onCr
   return (
     <header className="header">
       <button className="button create-event-btn" onClick={onCreateEvent}>
-        {/* <i className="fas fa-plus create-event-btn__icon"></i>Create */}
         <i className="create-event-btn__icon">
           <svg className="create-event-btn__icon-svg" width="36" height="36" viewBox="0 0 36 36">
             <path fill="#34A853" d="M16 16v14h4V20z"></path>
@@ -36,3 +36,12 @@ const Header = ({ monthTitle, numberEvent, onToday, onNextWeek, onPrevWeek, onCr
 };
 
 export default Header;
+
+Header.propTypes = {
+  monthTitle: PropTypes.string.isRequired,
+  numberEvent: PropTypes.number.isRequired,
+  onToday: PropTypes.func.isRequired,
+  onNextWeek: PropTypes.func.isRequired,
+  onPrevWeek: PropTypes.func.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
+};

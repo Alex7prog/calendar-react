@@ -50,17 +50,7 @@ export const months = [
 
 // *******************************************
 
-// export const getDatePeriodDays = (date, days) => {
-//   const day = new Date(date).getDate();
-//   const dateInFuture = new Date(date).setDate(day + days);
-//   return new Date(dateInFuture);
-// };
-
 export const getDatePeriodDays = (startDate, period) => {
-  // const day = new Date(date).getDate();
-  // const dateInFuture = new Date(date).setDate(day + days);
-  // return new Date(dateInFuture);
-
   const base = new Date(startDate);
   return new Date(base.setDate(base.getDate() + period));
 };
@@ -78,7 +68,8 @@ export const getMonthsOnWeek = date => {
 
 export const getMinutesWithStep = (timeStr, step) => {
   let hm = timeStr.split(':');
-  hm[1] = (Math.round(hm[1] / step) * step).toString();
+  hm[1] = Math.round(hm[1] / step) * step;
+  hm[1] = hm[1] >= 60 ? '00' : hm[1].toString();
 
   return hm[1] !== '0' ? hm.join(':') : hm.join(':0');
 };
@@ -91,4 +82,40 @@ export const getEventObjDate = date => {
     endTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
     description: '',
   };
+};
+
+export const gapMinutes = (startTime, endTime) => {
+  const hmStart = startTime.split(':');
+  const hmEnd = endTime.split(':');
+
+  return Math.abs((hmEnd[0] - hmStart[0]) * 60 + (hmEnd[1] - hmStart[1]));
+};
+
+export const isEventCanDel = (eventTime, eventDate) => {
+  const curDate = new Date().getTime();
+  const evDate = new Date(
+    2022,
+    eventDate.month,
+    eventDate.day,
+    eventTime.split(':')[0],
+    eventTime.split(':')[1],
+  ).getTime();
+
+  if (evDate > curDate && evDate - curDate < 15 * 60000) {
+    return true;
+  }
+
+  return false;
+};
+
+export const isOverlapEventsList = (date, startTime, endTime, eventsList) => {
+  const evStartDate = getDateTime(date, startTime).getTime();
+  const evEndDate = getDateTime(date, endTime).getTime();
+
+  return eventsList.some(
+    event =>
+      (event.dateFrom.getTime() < evStartDate && evStartDate < event.dateTo.getTime()) ||
+      (event.dateFrom.getTime() < evEndDate && evEndDate < event.dateTo.getTime()) ||
+      (evStartDate < event.dateFrom.getTime() && event.dateTo.getTime() < evEndDate),
+  );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import Hour from '../hour/Hour';
 import TimeLine from '../timeLine/TimeLine';
@@ -6,10 +7,9 @@ import TimeLine from '../timeLine/TimeLine';
 import './day.scss';
 
 const Day = ({ dataMonth, dataDay, dayEvents, onGetDay }) => {
-  const hours = [...Array(24)].map((val, index) => index);
-
   const [currentMinutes, setTime] = useState(new Date().getMinutes());
 
+  const hours = [...Array(24)].map((val, index) => index);
   const currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
   const currentHour = new Date().getHours();
@@ -44,3 +44,10 @@ const Day = ({ dataMonth, dataDay, dayEvents, onGetDay }) => {
 };
 
 export default Day;
+
+Day.propTypes = {
+  dataMonth: PropTypes.number.isRequired,
+  dataDay: PropTypes.number.isRequired,
+  dayEvents: PropTypes.array.isRequired,
+  onGetDay: PropTypes.func.isRequired,
+};

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import events from '../../gateway/events';
-// import { EventDeleteContext } from '../calendar/Calendar';
+import PropTypes from 'prop-types';
 import { EventDeleteContext } from '../../App';
 
 import './event.scss';
@@ -22,3 +21,11 @@ const Event = ({ eventId, height, marginTop, title, time }) => {
 };
 
 export default Event;
+
+Event.propTypes = {
+  eventId: PropTypes.string.isRequired,
+  height: PropTypes.number.isRequired,
+  marginTop: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+};

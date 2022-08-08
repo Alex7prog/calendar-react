@@ -1,10 +1,7 @@
 .popup {
   position: absolute;
-  // transform: scale(0);
-  // transition: 1s;
 
   &_active {
-    // transform: scale(1);
   }
 
   &__content {
