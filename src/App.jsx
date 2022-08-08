@@ -19,7 +19,7 @@ import {
   isOverlapEventsList,
 } from '../src/utils/dateUtils.js';
 
-import './common.scss';
+import './styles/common.scss';
 
 export const EventDeleteContext = React.createContext();
 
