@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import './modal.scss';
 
-const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubmit }) => {
+const Modal = ({ active, setActive, event, onClose, onChange, onInputData, onSubmit }) => {
   return (
     <div className={active ? 'overlay overlay_active' : 'overlay'}>
       <div className={active ? 'modal modal_active' : 'modal'}>
@@ -18,6 +18,7 @@ const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubm
                 name="title"
                 placeholder="Title"
                 className="event-form__field"
+                value={event.title}
                 required
                 onChange={onChange}
               />
@@ -27,7 +28,7 @@ const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubm
                   name="date"
                   className="event-form__field"
                   // value={moment(date.date).format('YYYY-MM-DD')}
-                  value={date.date}
+                  value={event.date}
                   onChange={onChange}
                 />
                 <input
@@ -36,7 +37,7 @@ const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubm
                   className="event-form__field"
                   step="900"
                   // value={moment(date.startTime).format('HH:mm')}
-                  value={date.startTime}
+                  value={event.startTime}
                   required
                   onChange={onChange}
                   onBlur={onInputData}
@@ -49,7 +50,7 @@ const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubm
                   name="endTime"
                   className="event-form__field"
                   step="900"
-                  value={date.endTime}
+                  value={event.endTime}
                   required
                   onChange={onChange}
                   onBlur={onInputData}
@@ -60,6 +61,7 @@ const Modal = ({ active, setActive, date, onClose, onChange, onInputData, onSubm
                 placeholder="Description"
                 className="event-form__field"
                 onChange={onChange}
+                value={event.description}
               ></textarea>
               <button type="submit" className="event-form__submit-btn">
                 Create

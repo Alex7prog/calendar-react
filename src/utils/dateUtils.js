@@ -85,8 +85,10 @@ export const getMinutesWithStep = (timeStr, step) => {
 
 export const getEventObjDate = date => {
   return {
+    title: '',
     date: moment(date).format('YYYY-MM-DD'),
     startTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
     endTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
+    description: '',
   };
 };

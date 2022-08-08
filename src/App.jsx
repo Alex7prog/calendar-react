@@ -18,6 +18,8 @@ import {
 
 import './common.scss';
 
+import moment from 'moment';
+
 export const EventDeleteContext = React.createContext();
 
 const App = () => {
@@ -56,6 +58,8 @@ const App = () => {
 
   const handleCreateEvent = () => {
     eventChange(getEventObjDate(new Date()));
+
+    console.log(event);
     setActiveModalCreateEvent(true);
   };
 
@@ -120,6 +124,7 @@ const App = () => {
   // console.log(showModalCreateEvent.date);
   // console.log('event.dateFrom>>>', event.dateFrom);
   // console.log(showModalDelEvent);
+  console.log(event);
   return (
     <React.Fragment>
       <Header
@@ -143,8 +148,8 @@ const App = () => {
       {/* {activeModalCreateEvent && ( */}
       <Modal
         active={activeModalCreateEvent}
-        date={event}
-        setActive={setActiveModalCreateEvent}
+        event={event}
+        // setActive={setActiveModalCreateEvent}
         onClose={() => setActiveModalCreateEvent(false)}
         onChange={handleChange}
         onInputData={handleInput}
