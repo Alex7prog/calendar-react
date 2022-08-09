@@ -57,10 +57,10 @@ export const getDatePeriodDays = (startDate, period) => {
 
 export const getMonthsOnWeek = date => {
   const startWeekMonth = date.getMonth();
-  const endWeekMonth = getDatePeriodDays(date, 7).getMonth();
+  const endWeekMonth = getDatePeriodDays(date, 6).getMonth();
 
   if (startWeekMonth === endWeekMonth) {
-    return months[startWeekMonth];
+    return `${months[startWeekMonth]}`;
   }
 
   return `${months[startWeekMonth]} - ${months[endWeekMonth]}`;
