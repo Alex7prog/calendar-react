@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './time-line.scss';
 
-const TimeLine = ({ marginTop }) => {
+const TimeLine = () => {
+  let hour = new Date().getHours() * 60;
+
+  const [currentMinutes, setTime] = useState(hour + new Date().getMinutes());
+
+  useEffect(() => {
+    const intervalHours = setInterval(() => {
+      hour = new Date().getHours() * 60;
+    }, 60 * 60000);
+    const intervalMinutes = setInterval(() => {
+      setTime(hour + new Date().getMinutes());
+    }, 60000);
+
+    return () => {
+      clearInterval(intervalHours);
+      clearInterval(intervalMinutes);
+    };
+  }, []);
+
   const lineStyle = {
-    marginTop,
+    marginTop: currentMinutes - 1,
   };
 
   return (
@@ -11,12 +29,6 @@ const TimeLine = ({ marginTop }) => {
       <i className="fas fa-circle red-line__circle"></i>
     </div>
   );
-  // return <div className="red-line"></div>;
 };
 
 export default TimeLine;
-
-// <div style={lineStyle}>
-//   <i class="fas fa-circle"></i>
-//   <span className="red-line"></span>
-// </div>;

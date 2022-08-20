@@ -1,7 +1,7 @@
 .header {
   display: flex;
-  height: 60px;
   padding: 0 48px;
+  height: 60px;
   align-items: center;
 
   &__displayed-number-events {
@@ -13,9 +13,8 @@
 
 .create-event-btn {
   display: flex;
-  align-items: center;
   padding: 0 17px 0 10px;
-  // -----------
+  align-items: center;
   border-radius: 20px;
   background-color: transparent;
   box-shadow: 2px 3px 5px -1px rgb(0 0 0 / 30%);

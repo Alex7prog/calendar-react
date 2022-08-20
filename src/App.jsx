@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import ModalCreateEvent from './components/modalCreateEvent/ModalCreateEvent.jsx';
-import ModalDelEvent from './components/modalDelEvent/ModalDelEvent';
 
-import { fetchEvents, createEvent, deleteEvent } from './gateway/events.js';
+import { fetchEvents, createEvent } from './gateway/events.js';
 import {
   getWeekStartDate,
   generateWeekRange,
@@ -14,14 +13,12 @@ import {
   getDateTime,
   getEventObjDate,
   getMinutesWithStep,
-  gapMinutes,
-  isEventCanDel,
-  isOverlapEventsList,
 } from '../src/utils/dateUtils.js';
+import { isEventValid } from './utils/eventValidation.js';
 
 import './styles/common.scss';
 
-export const EventDeleteContext = React.createContext();
+export const FetchEventsListContext = React.createContext();
 
 const App = () => {
   const [eventsList, setEventsList] = useState([]);
@@ -31,10 +28,6 @@ const App = () => {
 
   const [activeModalCreateEvent, setActiveModalCreateEvent] = useState(false);
   const [event, eventChange] = useState(getEventObjDate(new Date()));
-
-  const [activeModalDelEvent, setActiveModalDelEvent] = useState(false);
-  const [positionModal, setPositionModal] = useState({ x: 0, y: 0 });
-  const [eventId, setEventId] = useState(null);
 
   const fetchEventsList = () => {
     fetchEvents().then(events => setEventsList(events));
@@ -50,8 +43,8 @@ const App = () => {
 
     if (name === 'startTime' || name === 'endTime') {
       value = getMinutesWithStep(value, 15);
+      eventChange({ ...event, [name]: value });
     }
-    eventChange({ ...event, [name]: value });
   };
 
   const handleCreateEvent = () => {
@@ -61,22 +54,12 @@ const App = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    if (!isEventValid(event, eventsList)) {
+      return;
+    }
+
     const { title, date, startTime, endTime, description } = event;
-
-    if (gapMinutes(startTime, endTime) > 360) {
-      alert('Sorry, but the scheduled event cannot be longer than 6 hours!');
-      return;
-    }
-
-    if (gapMinutes(startTime, endTime) < 15) {
-      alert('Sorry, but the scheduled event cannot be less than 15 minutes!');
-      return;
-    }
-
-    if (isOverlapEventsList(date, startTime, endTime, eventsList)) {
-      alert(`Sorry, but events can't overlap!`);
-      return;
-    }
 
     createEvent({
       title,
@@ -90,50 +73,22 @@ const App = () => {
     setActiveModalCreateEvent(false);
   };
 
-  const handleModalDelEvent = e => {
-    if (e.target.classList.contains('overlay')) {
-      setActiveModalDelEvent(false);
-      return;
-    }
-
-    if (e.target.closest('.popup__content')) {
-      deleteEvent(eventId)
-        .then(() => fetchEventsList())
-        .catch(error => alert(error));
-
-      setActiveModalDelEvent(false);
-    }
-  };
-
-  const handleDeleteEvent = e => {
-    e.stopPropagation();
-
-    const { clientX, clientY } = e;
-    clientX > 155
-      ? setPositionModal({ x: clientX - 130, y: clientY - 30 })
-      : setPositionModal({ x: clientX + 5, y: clientY - 30 });
-
-    const startTimeDelEvent = e.target.closest('.event').lastChild.innerHTML.split(' - ')[0];
-    const dateDelEvent = e.target.closest('.calendar__day').dataset;
-
-    if (isEventCanDel(startTimeDelEvent, dateDelEvent)) {
-      alert(`Sorry, you can't delete an event 15 minutes before it starts!`);
-      return;
-    }
-
-    setEventId(e.target.closest('.event').dataset.id);
-    setActiveModalDelEvent(true);
-  };
-
   const handleGetDay = e => {
     const { time } = e.target.closest('.calendar__time-slot').dataset;
     const { day, month } = e.target.closest('.calendar__day').dataset;
-    eventChange(getEventObjDate(new Date(2022, month, day, time)));
+    const dateNewEvent = new Date(2022, month, day, time - 1);
+
+    if (dateNewEvent < new Date()) {
+      alert(`Sorry, cannot create an event in the past`);
+      return;
+    }
+
+    eventChange(getEventObjDate(dateNewEvent));
     setActiveModalCreateEvent(true);
   };
 
   useEffect(() => {
-    fetchEventsList();
+    fetchEventsList(eventsList);
   }, []);
 
   return (
@@ -146,10 +101,9 @@ const App = () => {
         onPrevWeek={() => setWeekStartDate(getDatePeriodDays(weekStartDate, -7))}
         onCreateEvent={handleCreateEvent}
       />
-
-      <EventDeleteContext.Provider value={handleDeleteEvent}>
+      <FetchEventsListContext.Provider value={{ fetchEventsList, eventsList }}>
         <Calendar weekDates={weekDates} events={eventsList} onGetDay={handleGetDay} />
-      </EventDeleteContext.Provider>
+      </FetchEventsListContext.Provider>
 
       <ModalCreateEvent
         active={activeModalCreateEvent}
@@ -158,12 +112,6 @@ const App = () => {
         onChange={handleChange}
         onInputData={handleInput}
         onSubmit={handleSubmit}
-      />
-
-      <ModalDelEvent
-        active={activeModalDelEvent}
-        position={positionModal}
-        onDelete={handleModalDelEvent}
       />
     </React.Fragment>
   );

@@ -75,11 +75,12 @@ export const getMinutesWithStep = (timeStr, step) => {
 };
 
 export const getEventObjDate = date => {
+  const evDate = new Date(date);
   return {
     title: '',
-    date: moment(date).format('YYYY-MM-DD'),
-    startTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
-    endTime: getMinutesWithStep(moment(date).format('HH:mm'), 15),
+    date: moment(evDate).format('YYYY-MM-DD'),
+    startTime: getMinutesWithStep(moment(evDate).format('HH:mm'), 15),
+    endTime: getMinutesWithStep(moment(evDate).add(1, 'h').format('HH:mm'), 15),
     description: '',
   };
 };
@@ -91,15 +92,9 @@ export const gapMinutes = (startTime, endTime) => {
   return Math.abs((hmEnd[0] - hmStart[0]) * 60 + (hmEnd[1] - hmStart[1]));
 };
 
-export const isEventCanDel = (eventTime, eventDate) => {
+export const canDeleteEvent = eventDate => {
   const curDate = new Date().getTime();
-  const evDate = new Date(
-    2022,
-    eventDate.month,
-    eventDate.day,
-    eventTime.split(':')[0],
-    eventTime.split(':')[1],
-  ).getTime();
+  const evDate = eventDate.getTime();
 
   if (evDate > curDate && evDate - curDate < 15 * 60000) {
     return true;
@@ -108,14 +103,14 @@ export const isEventCanDel = (eventTime, eventDate) => {
   return false;
 };
 
-export const isOverlapEventsList = (date, startTime, endTime, eventsList) => {
+export const isEventOverlaps = (date, startTime, endTime, eventsList) => {
   const evStartDate = getDateTime(date, startTime).getTime();
   const evEndDate = getDateTime(date, endTime).getTime();
 
   return eventsList.some(
     event =>
-      (event.dateFrom.getTime() < evStartDate && evStartDate < event.dateTo.getTime()) ||
-      (event.dateFrom.getTime() < evEndDate && evEndDate < event.dateTo.getTime()) ||
+      (event.dateFrom.getTime() <= evStartDate && evStartDate <= event.dateTo.getTime()) ||
+      (event.dateFrom.getTime() <= evEndDate && evEndDate <= event.dateTo.getTime()) ||
       (evStartDate < event.dateFrom.getTime() && event.dateTo.getTime() < evEndDate),
   );
 };

@@ -15,7 +15,7 @@ const Hour = ({ dataHour, hourEvents, onGetDay }) => {
           <Event
             key={`ev-${id}-${dataHour}`}
             eventId={id}
-            //calculating event height = duration of event in minutes
+            //  event height = duration of event in minutes
             height={(dateTo.getTime() - dateFrom.getTime()) / (1000 * 60)}
             marginTop={dateFrom.getMinutes()}
             time={`${eventStart} - ${eventEnd}`}
