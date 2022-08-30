@@ -74,17 +74,6 @@ export const getMinutesWithStep = (timeStr, step) => {
   return hm[1] !== '0' ? hm.join(':') : hm.join(':0');
 };
 
-export const getEventObjDate = date => {
-  const evDate = new Date(date);
-  return {
-    title: '',
-    date: moment(evDate).format('YYYY-MM-DD'),
-    startTime: getMinutesWithStep(moment(evDate).format('HH:mm'), 15),
-    endTime: getMinutesWithStep(moment(evDate).add(1, 'h').format('HH:mm'), 15),
-    description: '',
-  };
-};
-
 export const gapMinutes = (startTime, endTime) => {
   const hmStart = startTime.split(':');
   const hmEnd = endTime.split(':');
@@ -113,4 +102,25 @@ export const isEventOverlaps = (date, startTime, endTime, eventsList) => {
       (event.dateFrom.getTime() <= evEndDate && evEndDate <= event.dateTo.getTime()) ||
       (evStartDate < event.dateFrom.getTime() && event.dateTo.getTime() < evEndDate),
   );
+};
+
+export const getObjectEventWithDate = date => {
+  const evDate = new Date(date);
+  return {
+    title: '',
+    date: moment(evDate).format('YYYY-MM-DD'),
+    startTime: getMinutesWithStep(moment(evDate).format('HH:mm'), 15),
+    endTime: getMinutesWithStep(moment(evDate).add(1, 'h').format('HH:mm'), 15),
+    description: '',
+  };
+};
+
+export const getObjectEvent = e => {
+  if (e.target.closest('.create-event-btn')) {
+    return getObjectEventWithDate(new Date());
+  }
+
+  const { time } = e.target.closest('.calendar__time-slot').dataset;
+  const { day, month } = e.target.closest('.calendar__day').dataset;
+  return getObjectEventWithDate(new Date(2022, month, day, time - 1));
 };

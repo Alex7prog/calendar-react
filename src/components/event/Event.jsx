@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FetchEventsListContext } from '../../App';
 import ModalDeleteEvent from '../modalDeleteEvent/ModalDeleteEvent';
@@ -9,7 +9,7 @@ import './event.scss';
 const Event = ({ eventId, height, marginTop, title, time }) => {
   const [activePopup, setActivePopup] = useState(false);
   const [positionModal, setPositionModal] = useState({ x: 0, y: 0 });
-  const [eventIdState, setEventId] = useState(null);
+
   const eventStyle = {
     height,
     marginTop,
@@ -18,7 +18,7 @@ const Event = ({ eventId, height, marginTop, title, time }) => {
   const { fetchEventsList, eventsList } = useContext(FetchEventsListContext);
 
   const handleModalDeleteEvent = e => {
-    deleteEvent(eventIdState)
+    deleteEvent(eventId)
       .then(() => fetchEventsList())
       .catch(error => alert(error));
   };
@@ -31,15 +31,14 @@ const Event = ({ eventId, height, marginTop, title, time }) => {
       ? setPositionModal({ x: clientX - 130, y: clientY - 30 })
       : setPositionModal({ x: clientX + 5, y: clientY - 30 });
 
-    const targetEventId = e.target.closest('.event').dataset.id;
-    const targetEvent = eventsList.find(event => event.id === targetEventId);
+    // const targetEventId = e.target.closest('.event').dataset.id;
+    // const targetEvent = eventsList.find(event => event.id === targetEventId);
+    const targetEvent = eventsList.find(event => event.id === eventId);
 
     if (canDeleteEvent(targetEvent.dateFrom)) {
       alert(`Sorry, you can't delete an event 15 minutes before it starts!`);
       return;
     }
-
-    setEventId(targetEventId);
 
     setActivePopup(true);
   };
