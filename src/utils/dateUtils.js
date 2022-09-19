@@ -117,10 +117,11 @@ export const getObjectEventWithDate = date => {
 
 export const getObjectEvent = e => {
   if (e.target.closest('.create-event-btn')) {
-    return getObjectEventWithDate(new Date());
+    return getObjectEventWithDate(moment(new Date()).add(15, 'm'));
   }
 
   const { time } = e.target.closest('.calendar__time-slot').dataset;
   const { day, month } = e.target.closest('.calendar__day').dataset;
+
   return getObjectEventWithDate(new Date(2022, month, day, time - 1));
 };

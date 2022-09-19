@@ -13,6 +13,7 @@ import {
   getObjectEventWithDate,
   getObjectEvent,
 } from '../src/utils/dateUtils.js';
+import { isEventValid } from './utils/eventValidation.js';
 
 import './styles/common.scss';
 
@@ -32,7 +33,13 @@ const App = () => {
   };
 
   const handleCreateEvent = e => {
-    eventChange(getObjectEvent(e));
+    const newEvent = getObjectEvent(e);
+
+    if (!isEventValid(newEvent, eventsList)) {
+      return;
+    }
+
+    eventChange(newEvent);
     setActiveModalCreateEvent(true);
   };
 
